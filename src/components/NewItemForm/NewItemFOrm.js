@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Nav from '../Nav/Nav';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { SHELF_ACTIONS } from '../../redux/actions/shelfActions';
 
