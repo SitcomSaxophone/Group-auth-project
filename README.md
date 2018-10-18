@@ -4,6 +4,12 @@ Our client, Prime Digital Academy: Room 2, has asked for an app to simulate the 
 
 This will require some research, design, an implementation. Update this README.md to include the names of the group members and your team name/number. As well as any planning/docs. These can be in digital format or even pics of whiteboard/notebook sketches.
 
+##GROUP MEMBERS
+-Nik Manchan
+-Hailee Miu
+-Nathan Salazar
+-Sam Solberg
+
 ## DOWNLOAD THIS REPOSITORY
 
 > NOTE: Do not clone this repository.
