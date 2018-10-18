@@ -5,9 +5,7 @@ import { SHELF_ACTIONS } from '../actions/shelfActions';
 const shelf = (state = [], action) => {
   switch (action.type) {
     case SHELF_ACTIONS.SET_ITEMS:
-      return action.payload;
-    case SHELF_ACTIONS.POST_ITEM:
-      return [...state, action.payload];
+      return action.payload;    
     default:
       return state;
   }

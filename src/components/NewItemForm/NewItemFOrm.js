@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Nav from '../Nav/Nav';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { SHELF_ACTIONS } from '../../redux/actions/shelfActions';
 
 class NewItemForm extends Component {
     state = {
@@ -12,20 +13,11 @@ class NewItemForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state);
-        axios({
-            method: 'POST',
-            url: '/api/shelf',
-            data: this.state
-        }).then(response => {
-            console.log('add item success!')
-            this.setState({
-                description: '',
-                image_url: '',
-            })
-        }).catch(error => {
-            console.log('error adding item', error)
-        });
+        this.props.dispatch({ type: SHELF_ACTIONS.POST_ITEM, payload: this.state});
+        this.setState({
+            description: '',
+            image_url: '',
+        })
     }
 
     handleChange = (property) => (event) => {
