@@ -12,6 +12,7 @@ import RegisterPage from './components/RegisterPage/RegisterPage';
 import UserPage from './components/UserPage/UserPage';
 import InfoPage from './components/InfoPage/InfoPage';
 import NewItemForm from './components/NewItemForm/NewItemForm';
+import ItemCount from './components/ItemCount/ItemCount';
 
 import './styles/main.css';
 
@@ -40,6 +41,10 @@ const App = () => (
         <Route
           path="/additem"
           component={NewItemForm}
+        />
+        <Route
+          path="/count"
+          component={ItemCount}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

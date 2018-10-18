@@ -58,7 +58,19 @@ router.put('/:id', (req, res) => {
  * they have added to the shelf
  */
 router.get('/count', (req, res) => {
-
+    const query = 
+        `SELECT "person"."username", COUNT("item")
+        FROM "person"
+        LEFT JOIN "item"
+        ON "person"."id" = "person_id"
+        GROUP BY "person"."id";`
+    pool.query(query)
+    .then(results => {
+        res.send(results.rows);
+    }).catch(error => {
+        console.log('Error:', error);
+        res.sendStatus(500);
+    })
 });
 
 

@@ -1,6 +1,6 @@
 import { put, takeLatest } from 'redux-saga/effects';
 import { SHELF_ACTIONS } from '../actions/shelfActions';
-import { callShelf, deleteShelfItem, addItem } from '../requests/shelfRequests';
+import { callShelf, deleteShelfItem, userItems, addItem } from '../requests/shelfRequests';
 
 // worker Saga: will be fired on "FETCH_USER" actions
 function* fetchItems() {
@@ -31,12 +31,20 @@ function* deleteItem(action) {
   }
 }
 
+function* shelfCount() {
+  try{
+    const count = yield userItems();
+    yield put({type: SHELF_ACTIONS.SET_COUNT, payload: count});
+  } catch (error) {
+    console.log('Error in shelfCount:', error);
+  }
+}
 
 function* shelfSaga() {
   yield takeLatest(SHELF_ACTIONS.FETCH_ITEMS, fetchItems);
   yield takeLatest(SHELF_ACTIONS.DELETE_ITEM, deleteItem);
+  yield takeLatest(SHELF_ACTIONS.ITEM_COUNT, shelfCount);
   yield takeLatest(SHELF_ACTIONS.POST_ITEM, postItem);
-
 }
 
 export default shelfSaga;
