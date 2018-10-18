@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
-
-import Nav from '../../components/Nav/Nav';
+import Nav from '../Nav/Nav';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 class NewItemForm extends Component {
     state = {
         description: '',
         image_url: '',
+        person_id: this.props.user.id
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
         console.log(this.state);
+        axios({
+        method: 'POST',
+        url: '/api/shelf',
+        data: this.state
+        }).then(response => {
+            console.log('add item success!')
+        }).catch(error => {
+            console.log('error adding item', error)
+        });
     }
 
     handleChange = (property) => (event) => {
@@ -40,4 +51,8 @@ class NewItemForm extends Component {
     }
 }
 
-export default NewItemForm;
+const mapStateToProps = state => ({
+    user: state.user,
+  });
+
+export default connect(mapStateToProps)(NewItemForm);
