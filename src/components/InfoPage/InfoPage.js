@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Nav from '../../components/Nav/Nav';
+import { SHELF_ACTIONS } from '../../redux/actions/shelfActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import axios from 'axios';
 
 const mapStateToProps = state => ({
   user: state.user,
+  shelf: state.shelf
 });
 
 class InfoPage extends Component {
@@ -17,12 +18,7 @@ class InfoPage extends Component {
   //trigger a /user call
   componentDidMount() {
     this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
-    axios.get('/api/shelf').then(response=>{
-      console.log(response.data);
-      this.setState({items: response.data});
-    }).catch(error=>{
-      console.log('Error in GET:',error);
-    })
+    this.props.dispatch({type: SHELF_ACTIONS.FETCH_ITEMS});
   }
 
   // componentDidUpdate runs after props and state have changed.
@@ -34,9 +30,7 @@ class InfoPage extends Component {
   }
 
   handleClick = (id) => {
-    axios.delete(`/api/shelf/${id}`).then( ()=> {
-      alert('deleted!');
-    }).catch(error => alert('error:', error))
+    this.props.dispatch({type: SHELF_ACTIONS.DELETE_ITEM, payload: id});
    
   }
 
@@ -58,7 +52,7 @@ class InfoPage extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.state.items.map(item => <tr key={item.id}>
+              {this.props.shelf.shelf.map(item => <tr key={item.id}>
               <td>{item.description}</td>
               <td><img src={item.image_url} style={{height: "200px", width: "200px"}}/></td>
               <td><button onClick={()=>this.handleClick(item.id)}>Delete</button></td></tr>)}
