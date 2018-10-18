@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
 
-class NewItemForm extends Compontent {
+import Nav from '../../components/Nav/Nav';
+
+class NewItemForm extends Component {
+
+    handleSubmit = () => {
+        console.log('submitted');
+    }
+
     render() {
-         return (
-             <div>
-                 <h2>
-                     Add Item
+        let content = null;
+        return (
+            <div>
+                <Nav />
+                {content}
+
+                <h2>
+                    Add Item
                  </h2>
-                 <form>
-                     <input type="text"/>
-                     <input type="text"/>
-                     <input type="submit" >Add Item</input>
-                 </form>
-             </div>
-         )
+                <form onSubmit={this.handleSubmit}>
+                    <input type="text" placeholder="Description" />
+                    <input type="text" placeholder="Image URL" />
+                    <input type="submit" />
+                </form>
+            </div >
+        )
     }
 }
 
