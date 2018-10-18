@@ -3,12 +3,10 @@ import { connect } from 'react-redux';
 
 import Nav from '../../components/Nav/Nav';
 import { SHELF_ACTIONS } from '../../redux/actions/shelfActions';
-import { USER_ACTIONS } from '../../redux/actions/userActions';
 
 const mapStateToProps = state => ({
   user: state.user,
-  shelf: state.shelf,
-
+  count: state.count 
 });
 
 class InfoPage extends Component {
@@ -18,9 +16,7 @@ class InfoPage extends Component {
   }
   //trigger a /user call
   componentDidMount() {
-    this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
-    this.props.dispatch({type: SHELF_ACTIONS.FETCH_ITEMS});
-
+    this.props.dispatch({type: SHELF_ACTIONS.ITEM_COUNT});
   }
 
   // componentDidUpdate runs after props and state have changed.
@@ -31,11 +27,6 @@ class InfoPage extends Component {
     }
   }
 
-  handleClick = (id) => {
-    this.props.dispatch({type: SHELF_ACTIONS.DELETE_ITEM, payload: id});
-   
-  }
-
   render() {
     let content = null;
 
@@ -43,24 +34,21 @@ class InfoPage extends Component {
       content = (
         <div>
           <p>
-            Info Page
+            Count Page
           </p>
           <table>
             <thead>
               <tr>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Delete</th>
+                <th>User</th>
+                <th>Count</th>
               </tr>
             </thead>
             <tbody>
-              {this.props.shelf.shelf.map(item => <tr key={item.id}>
-              <td>{item.description}</td>
-              <td><img src={item.image_url} style={{height: "200px", width: "200px"}}/></td>
-              <td><button onClick={()=>this.handleClick(item.id)}>Delete</button></td></tr>)}
+              {this.props.count.count.map(user => <tr key={user.username}>
+              <td>{user.username}</td>
+              <td>{user.count}</td></tr>)}
             </tbody>
           </table>
-
         </div>
       );
     }
