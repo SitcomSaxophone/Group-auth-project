@@ -22,7 +22,12 @@ router.get('/', (req, res) => {
  * Add an item for the logged in user to the shelf
  */
 router.post('/', (req, res) => {
-
+    const query = `INSERT INTO item("description", "image_url", "person_id")VALUES($1, $2, $3);`;
+    pool.query(query, [req.body.description, req.body.image_url, req.body.person_id]).then(() => {
+        res.sendStatus(201);
+    }).catch(error => {
+        console.log('Error making POST to database: ', error);
+    });
 });
 
 
