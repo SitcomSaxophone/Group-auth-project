@@ -6,7 +6,15 @@ const router = express.Router();
  * Get all of the items on the shelf
  */
 router.get('/', (req, res) => {
-    res.sendStatus(200); // For testing only, can be removed
+    const query = `SELECT * FROM item;`
+    pool.query(query)
+    .then(results => {
+        res.send(results.rows);
+    })
+    .catch(error => {
+        console.log('ERROR',error);
+        res.sendStatus(500);
+    })
 });
 
 
@@ -22,7 +30,13 @@ router.post('/', (req, res) => {
  * Delete an item if it's something the logged in user added
  */
 router.delete('/:id', (req, res) => {
-
+    const query = `DELETE FROM "item" WHERE "id"=$1;`
+    pool.query(query, [req.params.id])
+    .then(() => 
+        res.sendStatus(200))
+    .catch(error => {
+        console.log('ERROR:', error);
+    })
 });
 
 
