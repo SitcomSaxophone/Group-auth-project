@@ -8,7 +8,9 @@ class NewItemForm extends Compontent {
                      Add Item
                  </h2>
                  <form>
-
+                     <input type="text"/>
+                     <input type="text"/>
+                     <input type="submit" >Add Item</input>
                  </form>
              </div>
          )
