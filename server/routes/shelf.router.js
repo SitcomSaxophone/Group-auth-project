@@ -49,7 +49,16 @@ router.delete('/:id', (req, res) => {
  * Update an item if it's something the logged in user added
  */
 router.put('/:id', (req, res) => {
-
+    pool.query(`UPDATE item
+                SET description=$1, image_url=$2
+                WHERE id=$3;`, [req.body.description, req.body.image_url, req.params.id])
+        .then(() => {
+            res.sendStatus(200);
+        })
+        .catch(error => {
+            console.log('Error making update ', error);
+            res.sendStatus(500);
+        });
 });
 
 
