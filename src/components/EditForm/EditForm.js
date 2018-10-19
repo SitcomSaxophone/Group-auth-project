@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { SHELF_ACTIONS } from '../../redux/actions/shelfActions';
 
 class EditForm extends Component {
 
@@ -11,11 +12,8 @@ class EditForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.dispatch({ type: SHELF_ACTIONS.EDIT_ITEM, payload: this.state});
-        this.setState({
-            description: '',
-            image_url: '',
-        })
+        this.props.dispatch({ type: SHELF_ACTIONS.EDIT_ITEM, payload: this.state });
+        this.props.history.push('/info');
     }
 
     handleChange = (property) => (event) => {
@@ -26,13 +24,16 @@ class EditForm extends Component {
     }
     render() {
         return (
-            <React.Fragment>
+            <div>
+                <h2>
+                    Edit Item
+                </h2>
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.state.description} placeholder="New Description" onChange={this.handleChange('description')} />
-                    <input type="text" value={this.state.image_url} placeholder="New Image URL" onChange={this.handleChange('image_url')} />
+                    <input type="text" value={this.state.description} placeholder="Edit Description" onChange={this.handleChange('description')} />
+                    <input type="text" value={this.state.image_url} placeholder="Edit Image URL" onChange={this.handleChange('image_url')} />
                     <input type="submit" />
                 </form>
-            </React.Fragment>
+            </div>
         )
     }
 }

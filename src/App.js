@@ -13,6 +13,7 @@ import UserPage from './components/UserPage/UserPage';
 import InfoPage from './components/InfoPage/InfoPage';
 import NewItemForm from './components/NewItemForm/NewItemForm';
 import ItemCount from './components/ItemCount/ItemCount';
+import EditForm from './components/EditForm/EditForm';
 
 import './styles/main.css';
 
@@ -45,6 +46,10 @@ const App = () => (
         <Route
           path="/count"
           component={ItemCount}
+        />
+        <Route
+          path="/edit"
+          component={EditForm}
         />
         {/* OTHERWISE (no path!) */}
         <Route render={() => <h1>404</h1>} />

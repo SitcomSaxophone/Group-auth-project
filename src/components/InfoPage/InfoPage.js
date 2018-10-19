@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Nav from '../../components/Nav/Nav';
 import { SHELF_ACTIONS } from '../../redux/actions/shelfActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
-import ItemRow from '../ItemRow/ItemRow'
+import ItemRow from '../ItemRow/ItemRow';
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -16,7 +16,6 @@ class InfoPage extends Component {
 
   state = {
     items: [],
-    showEdit: false,
   }
   //trigger a /user call
   componentDidMount() {
@@ -24,74 +23,65 @@ class InfoPage extends Component {
     this.props.dispatch({ type: SHELF_ACTIONS.FETCH_ITEMS });
 
   }
-
-  // componentDidUpdate runs after props and state have changed.
-  //If we arent loading the user call AND we dont have a user, kick us out to home
-  componentDidUpdate() {
-    if (!this.props.user.isLoading && this.props.user.userName === null) {
-      this.props.history.push('/home');
-    }
-  }
-
-  handleClick = (id) => {
-    this.props.dispatch({ type: SHELF_ACTIONS.DELETE_ITEM, payload: id });
-
-  }
-
-  //handleToggle
-  handleToggle = params => event => {
-    if (this.state.showEdit) {
-      this.setState({ showEdit: false });
-    } else {
-      this.setState({ showEdit: true });
-    }
-    console.log('toggle state:', this.state.showEdit)
-  }
   
-  render() {
-    let content = null;
-    
-    if (this.props.user.userName) {
-      content = (
-        <div>
-          <p>
-            Info Page
-          </p>
-          <table>
-            <thead>
-              <tr>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* {this.props.shelf.shelf.map(item => <tr key={item.id}>
-                <td>{item.description}</td>
-                <td><img src={item.image_url} style={{ height: "200px", width: "200px" }} /></td>
-                <td>
-                  <button onClick={() => this.handleClick(item.id)}>Delete</button>
-                  <button onClick={this.handleToggle(item.id)}>Edit</button>
-                </td></tr>)} */}
-                <ItemRow 
-                handleToggle = {this.handleToggle}
-                handleClick = {this.handleClick}
-                state = {this.state}
-                />
-            </tbody>
-          </table>
+// componentDidUpdate runs after props and state have changed.
+//If we arent loading the user call AND we dont have a user, kick us out to home
+componentDidUpdate() {
+  if (!this.props.user.isLoading && this.props.user.userName === null) {
+    this.props.history.push('/home');
+  }
+}
 
-        </div>
-      );
-    }
+handleClick = (id) => {
+  this.props.dispatch({ type: SHELF_ACTIONS.DELETE_ITEM, payload: id });
 
-    return (
+}
+
+//handleToggle
+handleToggle = params => event => {
+  this.props.history.push('/edit');
+  console.log('toggle state:', this.state.showEdit)
+}
+
+render() {
+  let content = null;
+
+  if (this.props.user.userName) {
+    content = (
       <div>
-        <Nav />
-        {content}
+        <p>
+          Info Page
+          </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Image</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.shelf.shelf.map(item => (
+              <ItemRow
+                handleToggle={this.handleToggle}
+                handleClick={this.handleClick}
+                item={item}
+                state={this.state}
+              />))}
+          </tbody>
+        </table>
+
       </div>
     );
   }
+
+  return (
+    <div>
+      <Nav />
+      {content}
+    </div>
+  );
+}
 }
 
 // this allows us to use <App /> in index.js
