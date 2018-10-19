@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Nav from '../../components/Nav/Nav';
 import { SHELF_ACTIONS } from '../../redux/actions/shelfActions';
 import { USER_ACTIONS } from '../../redux/actions/userActions';
+import ItemRow from '../ItemRow/ItemRow'
 
 const mapStateToProps = state => ({
   user: state.user,
@@ -65,13 +66,18 @@ class InfoPage extends Component {
               </tr>
             </thead>
             <tbody>
-              {this.props.shelf.shelf.map(item => <tr key={item.id}>
+              {/* {this.props.shelf.shelf.map(item => <tr key={item.id}>
                 <td>{item.description}</td>
                 <td><img src={item.image_url} style={{ height: "200px", width: "200px" }} /></td>
                 <td>
                   <button onClick={() => this.handleClick(item.id)}>Delete</button>
                   <button onClick={this.handleToggle(item.id)}>Edit</button>
-                </td></tr>)}
+                </td></tr>)} */}
+                <ItemRow 
+                handleToggle = {this.handleToggle}
+                handleClick = {this.handleClick}
+                state = {this.state}
+                />
             </tbody>
           </table>
 
