@@ -13,13 +13,14 @@ const mapStateToProps = state => ({
 
 class InfoPage extends Component {
 
-  state={
-    items: []
+  state = {
+    items: [],
+    showEdit: false,
   }
   //trigger a /user call
   componentDidMount() {
-    this.props.dispatch({type: USER_ACTIONS.FETCH_USER});
-    this.props.dispatch({type: SHELF_ACTIONS.FETCH_ITEMS});
+    this.props.dispatch({ type: USER_ACTIONS.FETCH_USER });
+    this.props.dispatch({ type: SHELF_ACTIONS.FETCH_ITEMS });
 
   }
 
@@ -32,13 +33,23 @@ class InfoPage extends Component {
   }
 
   handleClick = (id) => {
-    this.props.dispatch({type: SHELF_ACTIONS.DELETE_ITEM, payload: id});
-   
+    this.props.dispatch({ type: SHELF_ACTIONS.DELETE_ITEM, payload: id });
+
   }
 
+  //handleToggle
+  handleToggle = params => event => {
+    if (this.state.showEdit) {
+      this.setState({ showEdit: false });
+    } else {
+      this.setState({ showEdit: true });
+    }
+    console.log('toggle state:', this.state.showEdit)
+  }
+  
   render() {
     let content = null;
-
+    
     if (this.props.user.userName) {
       content = (
         <div>
@@ -50,14 +61,17 @@ class InfoPage extends Component {
               <tr>
                 <th>Description</th>
                 <th>Image</th>
-                <th>Delete</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {this.props.shelf.shelf.map(item => <tr key={item.id}>
-              <td>{item.description}</td>
-              <td><img src={item.image_url} style={{height: "200px", width: "200px"}}/></td>
-              <td><button onClick={()=>this.handleClick(item.id)}>Delete</button></td></tr>)}
+                <td>{item.description}</td>
+                <td><img src={item.image_url} style={{ height: "200px", width: "200px" }} /></td>
+                <td>
+                  <button onClick={() => this.handleClick(item.id)}>Delete</button>
+                  <button onClick={this.handleToggle(item.id)}>Edit</button>
+                </td></tr>)}
             </tbody>
           </table>
 
@@ -68,7 +82,7 @@ class InfoPage extends Component {
     return (
       <div>
         <Nav />
-        { content }
+        {content}
       </div>
     );
   }
